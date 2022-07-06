@@ -27,6 +27,23 @@
                         <a class="nav-link" href="#">Link</a>
                     </li>
                 </ul>
+                {% if user.is_authenticated %}
+                <span class="nav-item text-light px-3">Logged in as <b>{{ user.get_username }}</b></span>
+                {% endif %}
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link">Log out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link">Log in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'register' %}" class="nav-link">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </nav>
