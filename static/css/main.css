@@ -1,0 +1,30 @@
+@media screen and (min-width: 1681px){
+    .page-padding{
+        padding-left: 16rem;
+        padding-right: 16rem;
+    }
+}
+@media screen and (max-width: 1680px){
+    .page-padding{
+        padding-left: 8rem;
+        padding-right: 8rem;
+    }
+}
+@media screen and (max-width: 1280px){
+    .page-padding{
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+}
+@media screen and (max-width: 600px){
+    .page-padding{
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+@media screen and (max-width: 350px){
+    .page-padding{
+        padding-left: 1rem ;
+        padding-right: 1rem;
+    }
+}
