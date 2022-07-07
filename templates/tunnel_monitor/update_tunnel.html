@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}View tunnel{% endblock %}
+
+{% block content %}
+
+<form method="post" class="form-group">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success my-3">Update tunnel</button>
+</form>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="delete" value="delete">
+    <button type="submit" class="btn btn-danger md-3">Delete tunnel</button>
+</form>
+
+{% endblock %}

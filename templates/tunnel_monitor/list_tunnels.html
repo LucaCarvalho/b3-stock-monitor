@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}My tunnels{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-10">
+        <h2>My tunnels</h2>
+    </div>
+    <div class="col-2 d-flex justify-content-center">
+        <a href="{% url 'new_tunnel' %}" class="btn btn-primary align-self-center">New tunnel</a>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-hover">
+        <thead>
+            <th>Ticker</th>
+            <th>Last price</th>
+            <th>Upper bound</th>
+            <th>Lower bound</th>
+            <th>Update interval (minutes)</th>
+            <th>Active</th>
+        </thead>
+        {% for tunnel in tunnels %}
+        <tr>
+            <td><a href="{% url 'edit_tunnel' tunnel_id=tunnel.id %}">{{tunnel.ticker}} 🖉</a></td>
+            <td>unknown</td>
+            <td>{{tunnel.upper_bound}}</td>
+            <td>{{tunnel.lower_bound}}</td>
+            <td>{{tunnel.interval}}</td>
+            <td>{{tunnel.active|yesno:"✔️,❌"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

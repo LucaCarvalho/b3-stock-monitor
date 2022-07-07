@@ -25,5 +25,6 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - ALPHA_KEY={$ALPHA_KEY}
     depends_on:
       - db
