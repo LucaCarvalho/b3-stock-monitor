@@ -38,6 +38,7 @@ def edit_tunnel(request: HttpRequest, tunnel_id: int) -> HttpResponse:
     if request.method == "POST":
         if request.POST.get("delete", default=False):
             tunnel.delete()
+            return redirect("index")
         else:
             form = TunnelForm(request.POST, instance=tunnel)
             if form.is_valid():
