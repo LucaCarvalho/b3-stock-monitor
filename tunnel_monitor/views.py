@@ -52,6 +52,10 @@ def edit_tunnel(request: HttpRequest, tunnel_id: int) -> HttpResponse:
 
 @login_required
 def get_quote_history(request: HttpRequest, tunnel_id: int) -> JsonResponse:
+    '''
+    Returns a JSON with a time series containing every logged price
+    for a given tunnel_id.
+    '''
     # Doing this to ensure the tunnel belongs to the current user
     tunnel = Tunnel.objects.get(id=tunnel_id, auth_user=request.user.id)
     prices = PriceLog.objects.filter(tunnel=tunnel.id)

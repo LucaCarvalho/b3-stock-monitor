@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from tunnel_monitor.utils.ticker import log_quotes
 
 class Command(BaseCommand):
-    help = "Logs the current price of all active tunnels"
+    help = "Logs the current price of all active tunnels configured with the provided interval"
 
     def add_arguments(self, parser):
         parser.add_argument("--interval", type=int)

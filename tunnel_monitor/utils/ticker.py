@@ -13,6 +13,9 @@ def get_ticker_data(symbol: str) -> dict:
     return loads(response.content)
 
 def get_quote(symbol: str) -> Decimal:
+    '''
+    Returns the current price for a given symbol.
+    '''
     response = get(f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}.sao&apikey={api_key}")
     content = loads(response.content)
 
@@ -24,6 +27,9 @@ def get_quote(symbol: str) -> Decimal:
     return price
 
 def get_last_quote(tunnel_id: int) -> Decimal:
+    '''
+    Returns the last logged price for a given tunnel.
+    '''
     try:
         price = PriceLog.objects.filter(tunnel=tunnel_id).latest("time")
         return price.price
@@ -31,6 +37,12 @@ def get_last_quote(tunnel_id: int) -> Decimal:
         return None
 
 def log_quotes(interval: int) -> None:
+    '''
+    Logs the current price of every tunnel with the provided interval.
+
+    If any of the bounds have been crossed, the user will be notified
+    via email, and the tunnel will be marked as inactive.
+    '''
     tunnels = Tunnel.objects.filter(active=True, interval=interval)
 
     price_buffer = {}
