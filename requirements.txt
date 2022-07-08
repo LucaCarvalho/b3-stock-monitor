@@ -2,3 +2,4 @@ Django~=4.0.5
 psycopg2>=2.8
 django-crispy-forms~=1.14.0
 requests~=2.28.1
+django-apscheduler~=0.6.2

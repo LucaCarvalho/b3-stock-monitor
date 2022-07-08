@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'tunnel_monitor.apps.TunnelMonitorConfig',
     'register.apps.RegisterConfig',
     'crispy_forms',
+    "django_apscheduler",
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,12 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv("EMAIL_HOST", "")
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+
+DEFAULT_FROM_EMAIL = os.getenv("FROM_EMAIL", "")
+EMAIL_HOST_USER = os.getenv("EMAIL_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD", "")
