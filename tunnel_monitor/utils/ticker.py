@@ -2,6 +2,7 @@ from decimal import Decimal
 from requests import get
 from json import loads
 from os import getenv
+from django.core.mail import send_mail
 
 from tunnel_monitor.models import Tunnel, PriceLog
 
@@ -43,3 +44,25 @@ def log_quotes(interval: int) -> None:
 
         log = PriceLog(tunnel=tunnel, price=price_buffer[ticker])
         log.save()
+
+        if price_buffer[ticker] >= tunnel.upper_bound:
+            send_mail(
+                subject=f"{ticker} has crossed the upper bound",
+                message=f"{ticker} has crossed the upper bound ({tunnel.upper_bound})",
+                from_email=None,
+                recipient_list=[tunnel.auth_user.email],
+                fail_silently=True
+            )
+            tunnel.active = False
+            tunnel.save()
+        if price_buffer[ticker] <= tunnel.lower_bound:
+            send_mail(
+                subject=f"{ticker} has crossed the lower bound",
+                message=f"{ticker} has crossed the lower bound ({tunnel.lower_bound})",
+                from_email=None,
+                recipient_list=[tunnel.auth_user.email],
+                fail_silently=True
+            )
+            tunnel.active = False
+            tunnel.save()
+        
