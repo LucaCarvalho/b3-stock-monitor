@@ -17,4 +17,52 @@
     <button type="submit" class="btn btn-danger md-3">Delete tunnel</button>
 </form>
 
+<div id="chart-container"></div>
+
+{% endblock %}
+
+{% block body %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data-2012-2022.min.js"></script>
+<script>
+    $(document).ready(()=>{
+        Highcharts.setOptions({
+            time: {
+                timezone: 'America/Sao_Paulo'
+            }
+        });
+        $.getJSON("{% url 'get_quote_history' tunnel_id=form.instance.id %}", data => {
+            let chart_data = [];
+            for (label in data){
+                let date = new Date(label);
+                let value = parseFloat(data[label]);
+                chart_data.push([date.getTime(), value]);
+            }
+
+            Highcharts.stockChart('chart-container', {
+                rangeSelector: {
+                    selected: 1
+                },
+                title: {
+                    text: 'Price history'
+                },
+                series: [{
+                    name: 'Price',
+                    data: chart_data,
+                    tooltip: {
+                        valueDecimals: 2
+                    }
+                }],
+            });
+        });
+        
+    });
+</script>
+
 {% endblock %}

@@ -9,6 +9,9 @@ class TunnelForm(forms.ModelForm):
         if ticker_data["bestMatches"] == [] or float(ticker_data["bestMatches"][0]['9. matchScore']) != 1.0:
             raise forms.ValidationError("Invalid ticker")
 
+    def clean_ticker(self) -> str:
+        return self.cleaned_data['ticker'].upper()
+
     def clean(self) -> dict:
         data = super().clean()
         lower = data.get("lower_bound")

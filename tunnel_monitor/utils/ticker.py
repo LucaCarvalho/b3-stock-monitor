@@ -1,5 +1,4 @@
 from decimal import Decimal
-from pprint import pprint
 from requests import get
 from json import loads
 from os import getenv
@@ -19,16 +18,23 @@ def get_quote(symbol: str) -> Decimal:
     if "05. price" in content["Global Quote"]:
         price = Decimal(content["Global Quote"]["05. price"])
     else:
-        price = None
+        price = Decimal(0)
 
     return price
 
 def log_quotes(interval: int) -> None:
     tunnels = Tunnel.objects.filter(active=True, interval=interval)
 
+    price_buffer = {}
     for tunnel in tunnels:
-        price = get_quote(tunnel.ticker)
-        log = PriceLog(tunnel=tunnel, price=price)
+        ticker = tunnel.ticker
+
+        # Saving current price in a buffer to increase performance
+        # for repeated tickers and reduce number of api calls.
+        if ticker not in price_buffer:
+            price_buffer[ticker] = get_quote(tunnel.ticker)
+
+        log = PriceLog(tunnel=tunnel, price=price_buffer[ticker])
         log.save()
     
         

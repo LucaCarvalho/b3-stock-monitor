@@ -1,7 +1,7 @@
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from .models import Tunnel
+from .models import Tunnel, PriceLog
 from .forms import TunnelForm
 
 # Create your views here.
@@ -44,3 +44,15 @@ def edit_tunnel(request: HttpRequest, tunnel_id: int) -> HttpResponse:
         form = TunnelForm(instance=tunnel)
 
     return render(request, "tunnel_monitor/update_tunnel.html", {"form": form})
+
+@login_required
+def get_quote_history(request: HttpRequest, tunnel_id: int) -> JsonResponse:
+    # Doing this to ensure the tunnel belongs to the current user
+    tunnel = Tunnel.objects.get(id=tunnel_id, auth_user=request.user.id)
+    prices = PriceLog.objects.filter(tunnel=tunnel.id)
+
+    price_series = {}
+    for price in prices:
+        price_series[price.time.isoformat()] = price.price
+    
+    return JsonResponse(price_series)
