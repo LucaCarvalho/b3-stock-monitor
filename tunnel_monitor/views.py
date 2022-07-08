@@ -38,8 +38,7 @@ def edit_tunnel(request: HttpRequest, tunnel_id: int) -> HttpResponse:
             if form.is_valid():
                 form.instance.auth_user = request.user
                 form.save()
-                
-        return redirect("index")
+                return redirect("index")
     else:
         form = TunnelForm(instance=tunnel)
 

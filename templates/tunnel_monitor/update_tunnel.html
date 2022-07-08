@@ -32,6 +32,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data-2012-2022.min.js"></script>
 <script>
     $(document).ready(()=>{
+        $("#id_ticker").attr("readonly", true);
+
+        // Chart
         Highcharts.setOptions({
             time: {
                 timezone: 'America/Sao_Paulo'

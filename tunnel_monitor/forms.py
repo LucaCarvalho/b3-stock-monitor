@@ -3,14 +3,16 @@ from .models import Tunnel
 from .utils.ticker import get_ticker_data
 
 class TunnelForm(forms.ModelForm):
-    
     def validate_ticker(ticker: str) -> None:
         ticker_data = get_ticker_data(ticker)
         if ticker_data["bestMatches"] == [] or float(ticker_data["bestMatches"][0]['9. matchScore']) != 1.0:
             raise forms.ValidationError("Invalid ticker")
 
     def clean_ticker(self) -> str:
-        return self.cleaned_data['ticker'].upper()
+        upper_ticker = self.cleaned_data['ticker'].upper()
+        if 'ticker' in self.changed_data:
+            raise forms.ValidationError("Ticker must not be changed")
+        return upper_ticker
 
     def clean(self) -> dict:
         data = super().clean()
@@ -25,7 +27,7 @@ class TunnelForm(forms.ModelForm):
     ticker = forms.CharField(
         max_length=7,
         min_length=5,
-        validators=[validate_ticker]
+        validators=[validate_ticker],
     )
 
     class Meta:
