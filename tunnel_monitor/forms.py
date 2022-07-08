@@ -10,8 +10,8 @@ class TunnelForm(forms.ModelForm):
 
     def clean_ticker(self) -> str:
         upper_ticker = self.cleaned_data['ticker'].upper()
-        if 'ticker' in self.changed_data:
-            raise forms.ValidationError("Ticker must not be changed")
+        # if 'ticker' in self.changed_data:
+        #     raise forms.ValidationError("Ticker must not be changed")
         return upper_ticker
 
     def clean(self) -> dict:
