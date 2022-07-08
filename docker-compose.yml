@@ -29,5 +29,9 @@ services:
       - ALPHA_KEY={$ALPHA_KEY}
       - START_HOUR=10
       - END_HOUR=17
+      - FROM_EMAIL={$FROM_EMAIL}
+      - EMAIL_USER={$EMAIL_USER}
+      - EMAIL_PASSWORD={$EMAIL_PASSWORD}
+      - EMAIL_HOST={$EMAIL_HOST}
     depends_on:
       - db
