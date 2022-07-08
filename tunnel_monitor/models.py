@@ -1,7 +1,7 @@
-from errno import ESTALE
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 # Create your models here.
 
 def validate_currency(value):
@@ -24,3 +24,8 @@ class Tunnel(models.Model):
     lower_bound = models.DecimalField(max_digits=7, decimal_places=2, validators=[validate_currency])
     interval = models.IntegerField(choices=Intervals.choices, default=Intervals.FIFTEEN_MIN)
     active = models.BooleanField(default=True)
+
+class PriceLog(models.Model):
+    tunnel = models.ForeignKey(Tunnel, on_delete=models.CASCADE)
+    time = models.DateTimeField(default=timezone.now, blank=True)
+    price = models.DecimalField(max_digits=7, decimal_places=2, validators=[validate_currency])

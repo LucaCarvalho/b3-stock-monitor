@@ -1,9 +1,7 @@
-from pprint import pprint
-from django.http import HttpRequest, HttpResponse, HttpResponseForbidden, JsonResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import Tunnel
-from .utils.ticker import get_ticker_data
 from .forms import TunnelForm
 
 # Create your views here.
