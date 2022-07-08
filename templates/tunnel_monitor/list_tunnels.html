@@ -23,8 +23,8 @@
         </thead>
         {% for tunnel in tunnels %}
         <tr>
-            <td><a href="{% url 'edit_tunnel' tunnel_id=tunnel.id %}">{{tunnel.ticker}} 🖉</a></td>
-            <td>unknown</td>
+            <td><a href="{% url 'edit_tunnel' tunnel_id=tunnel.id %}">{{tunnel.ticker}}</a></td>
+            <td>{{last_prices|get_item:tunnel.id}}</td>
             <td>{{tunnel.upper_bound}}</td>
             <td>{{tunnel.lower_bound}}</td>
             <td>{{tunnel.interval}}</td>

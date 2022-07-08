@@ -22,6 +22,13 @@ def get_quote(symbol: str) -> Decimal:
 
     return price
 
+def get_last_quote(tunnel_id: int) -> Decimal:
+    try:
+        price = PriceLog.objects.filter(tunnel=tunnel_id).latest("time")
+        return price.price
+    except PriceLog.DoesNotExist:
+        return None
+
 def log_quotes(interval: int) -> None:
     tunnels = Tunnel.objects.filter(active=True, interval=interval)
 
@@ -36,5 +43,3 @@ def log_quotes(interval: int) -> None:
 
         log = PriceLog(tunnel=tunnel, price=price_buffer[ticker])
         log.save()
-    
-        

@@ -1,6 +1,7 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from tunnel_monitor.utils.ticker import get_last_quote
 from .models import Tunnel, PriceLog
 from .forms import TunnelForm
 
@@ -11,7 +12,11 @@ def index(request: HttpRequest) -> HttpResponse:
         return render(request, "tunnel_monitor/index.html")
     else:
         tunnels = Tunnel.objects.filter(auth_user=request.user.id)
-        return render(request, "tunnel_monitor/list_tunnels.html", context={"tunnels": tunnels})
+        last_prices = {}
+        for tunnel in tunnels:
+            last_prices[tunnel.id] = get_last_quote(tunnel.id)
+
+        return render(request, "tunnel_monitor/list_tunnels.html", context={"tunnels": tunnels, "last_prices": last_prices})
 
 @login_required
 def new_tunnel(request: HttpRequest) -> HttpResponse:
