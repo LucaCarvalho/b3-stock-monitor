@@ -1,4 +1,4 @@
-# Desafio Inoa
+# B3 Stock Monitor
 
 ## Introdução
 Este projeto consiste de duas aplicações: `register`, que cuida da autenticação, e `tunnel_monitor`, que é a aplicação principal.
